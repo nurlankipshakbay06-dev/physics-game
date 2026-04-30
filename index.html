@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Зат таңда</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ecfdf5, #eff6ff);
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #15803d;
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 19px;
+      margin-bottom: 22px;
+    }
+
+    .instruction {
+      background: #ffffff;
+      border-left: 7px solid #22c55e;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 22px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      border: 4px solid transparent;
+      cursor: pointer;
+      transition: 0.2s;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card:hover {
+      transform: scale(1.04);
+      border-color: #86efac;
+    }
+
+    .card.selected {
+      border-color: #16a34a;
+      background: #dcfce7;
+    }
+
+    .icon {
+      font-size: 80px;
+      margin-bottom: 12px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 25px;
+      color: #111827;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 16px;
+      color: #475569;
+    }
+
+    .question-box {
+      background: #fff7ed;
+      border-left: 7px solid #f97316;
+      border-radius: 18px;
+      padding: 18px;
+      font-size: 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.08);
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .answer-area {
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+      margin-bottom: 22px;
+    }
+
+    .answer-area h3 {
+      margin-top: 0;
+      color: #15803d;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      border-radius: 14px;
+      border: 2px solid #cbd5e1;
+      padding: 12px;
+      font-size: 18px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 22px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .show { background: #16a34a; color: white; }
+    .reset { background: #ef4444; color: white; }
+    .help-btn { background: #2563eb; color: white; }
+
+    #result {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #15803d;
+    }
+
+    .support {
+      display: none;
+      margin-top: 20px;
+      background: #eff6ff;
+      border-left: 7px solid #2563eb;
+      border-radius: 18px;
+      padding: 18px;
+      font-size: 17px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.08);
+    }
+
+    .support ul {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 700px) {
+      h1 { font-size: 30px; }
+      .icon { font-size: 68px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ұйымдастыру: «Зат таңда»</h1>
+    <p class="subtitle">Психологиялық ахуал қалыптастыру</p>
+
+    <div class="instruction">
+      <b>Нұсқаулық:</b> төмендегі заттардың бірін таңда. Содан кейін «Бұл зат не үшін керек?» деген сұраққа бір сөзбен немесе қысқа сөйлеммен жауап бер.
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="selectCard(this, 'Сызғыш')">
+        <div class="icon">📏</div>
+        <h2>Сызғыш</h2>
+        <p>Ұзындықты өлшеуге көмектеседі</p>
+      </div>
+
+      <div class="card" onclick="selectCard(this, 'Сағат')">
+        <div class="icon">⏰</div>
+        <h2>Сағат</h2>
+        <p>Уақытты білуге көмектеседі</p>
+      </div>
+
+      <div class="card" onclick="selectCard(this, 'Термометр')">
+        <div class="icon">🌡️</div>
+        <h2>Термометр</h2>
+        <p>Температураны өлшеуге көмектеседі</p>
+      </div>
+    </div>
+
+    <div class="question-box" id="question">
+      Сұрақ: «Бұл зат не үшін керек?»
+    </div>
+
+    <div class="answer-area">
+      <h3>Менің жауабым</h3>
+      <textarea id="answer" placeholder="Мысалы: өлшеу үшін, уақытты білу үшін, температураны анықтау үшін..."></textarea>
+    </div>
+
+    <div class="buttons">
+      <button class="show" onclick="showAnswer()">Жауапты көрсету</button>
+      <button class="help-btn" onclick="toggleSupport()">ЕББҚ қолдау</button>
+      <button class="reset" onclick="resetGame()">Қайта бастау</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="support" id="support">
+      <b>ЕББҚ оқушыға қолдау:</b>
+      <ul>
+        <li>Затты қолмен көрсетуге болады.</li>
+        <li>Бір сөзбен жауап беруге болады: «өлшеу», «уақыт», «температура».</li>
+        <li>Мұғалім қысқа жетекші сұрақ қояды: «Сызғышпен не істейміз?», «Сағат нені көрсетеді?»</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    let selectedObject = '';
+
+    function selectCard(card, name) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedObject = name;
+      document.getElementById('question').textContent = 'Сұрақ: «' + name + ' не үшін керек?»';
+      document.getElementById('result').textContent = '';
+    }
+
+    function showAnswer() {
+      const answer = document.getElementById('answer').value.trim();
+      const result = document.getElementById('result');
+
+      if (!selectedObject) {
+        result.style.color = '#dc2626';
+        result.textContent = 'Алдымен бір затты таңда.';
+        return;
+      }
+
+      if (!answer) {
+        result.style.color = '#dc2626';
+        result.textContent = 'Жауабыңды жаз немесе ауызша айт.';
+        return;
+      }
+
+      result.style.color = '#15803d';
+      result.textContent = 'Жарайсың! Сен таңдадың: ' + selectedObject + '. Жауабың: ' + answer;
+    }
+
+    function toggleSupport() {
+      const support = document.getElementById('support');
+      support.style.display = support.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function resetGame() {
+      selectedObject = '';
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('question').textContent = 'Сұрақ: «Бұл зат не үшін керек?»';
+      document.getElementById('answer').value = '';
+      document.getElementById('result').textContent = '';
+    }
+  </script>
+</body>
+</html>
