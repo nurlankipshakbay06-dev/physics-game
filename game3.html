@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Өлшеуге бола ма?</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #eef6ff, #f8fafc);
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1d4ed8;
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 22px;
+      font-weight: bold;
+    }
+
+    .instruction {
+      background: #fff7ed;
+      border-left: 7px solid #f97316;
+      border-radius: 16px;
+      padding: 15px;
+      font-size: 17px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    }
+
+    .game-area {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .cards, .zones {
+      background: white;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      min-height: 360px;
+    }
+
+    .cards h2, .zones h2 {
+      text-align: center;
+      margin-top: 0;
+      font-size: 25px;
+    }
+
+    .card {
+      background: #eff6ff;
+      border: 3px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 14px;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      cursor: grab;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      border-color: #2563eb;
+    }
+
+    .drop-zone {
+      min-height: 150px;
+      border: 4px dashed #94a3b8;
+      border-radius: 20px;
+      background: #f8fafc;
+      padding: 15px;
+      margin-bottom: 18px;
+      transition: 0.2s;
+    }
+
+    .drop-zone.dragover {
+      background: #dbeafe;
+      border-color: #2563eb;
+    }
+
+    .drop-zone h3 {
+      text-align: center;
+      margin: 0 0 12px;
+      font-size: 24px;
+    }
+
+    .drop-zone .card {
+      background: white;
+      margin-bottom: 10px;
+    }
+
+    .yes h3 { color: #16a34a; }
+    .no h3 { color: #dc2626; }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 22px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .check { background: #16a34a; color: white; }
+    .reset { background: #ef4444; color: white; }
+    .help-btn { background: #7c3aed; color: white; }
+
+    .correct {
+      border-color: #22c55e !important;
+      background: #dcfce7 !important;
+    }
+
+    .wrong {
+      border-color: #ef4444 !important;
+      background: #fee2e2 !important;
+    }
+
+    #result {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 18px;
+    }
+
+    .explanation {
+      display: none;
+      margin-top: 22px;
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+      font-size: 17px;
+    }
+
+    .explanation h3 {
+      color: #1d4ed8;
+      margin-top: 0;
+    }
+
+    .support {
+      margin-top: 16px;
+      background: #ecfdf5;
+      border-left: 7px solid #22c55e;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .game-area {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Тапсырма 1: «Өлшеуге бола ма?»</h1>
+    <p class="subtitle">Берілген ұғымдарды екі топқа бөл</p>
+
+    <div class="instruction">
+      <b>Нұсқаулық:</b> карточкаларды ұстап, дұрыс бөлімге орналастыр. Егер ұғымды құралмен, санмен немесе бірлікпен анықтауға болса — <b>өлшенеді</b>. Егер нақты өлшем бірлігі болмаса — <b>өлшенбейді</b>.
+    </div>
+
+    <div class="game-area">
+      <div class="cards" id="cards">
+        <h2>Карточкалар</h2>
+        <div class="card" draggable="true" data-answer="yes">Ұзындық</div>
+        <div class="card" draggable="true" data-answer="yes">Жылдамдық</div>
+        <div class="card" draggable="true" data-answer="no">Әдемілік</div>
+        <div class="card" draggable="true" data-answer="yes">Уақыт</div>
+      </div>
+
+      <div class="zones">
+        <h2>Жауаптар</h2>
+        <div class="drop-zone yes" data-zone="yes">
+          <h3>✔️ Өлшенеді</h3>
+        </div>
+        <div class="drop-zone no" data-zone="no">
+          <h3>❌ Өлшенбейді</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="check" onclick="checkAnswers()">Тексеру</button>
+      <button class="help-btn" onclick="toggleExplanation()">Түсіндірме</button>
+      <button class="reset" onclick="resetGame()">Қайта бастау</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="explanation" id="explanation">
+      <h3>Дұрыс жауап</h3>
+      <p><b>Өлшенеді:</b> ұзындық, жылдамдық, уақыт.</p>
+      <p><b>Өлшенбейді:</b> әдемілік.</p>
+      <p><b>Неге?</b> Ұзындықты метрмен, уақытты секундпен, жылдамдықты м/с немесе км/сағ арқылы өлшейміз. Ал әдемілік — адамның жеке бағалауы, оны нақты физикалық құралмен өлшей алмаймыз.</p>
+
+      <div class="support">
+        <b>ЕББҚ оқушыға қолдау:</b>
+        <ul>
+          <li>Тек 2 таңдау бар: «Иә» немесе «Жоқ».</li>
+          <li>Жауапты қолмен апарып қоюға болады.</li>
+          <li>Қысқа сұрақ: «Мұны құралмен өлшей аламыз ба?»</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let draggedCard = null;
+    const cardsBox = document.getElementById('cards');
+    const zones = document.querySelectorAll('.drop-zone');
+    const totalCards = document.querySelectorAll('.card').length;
+
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.classList.contains('card')) {
+        draggedCard = e.target;
+        setTimeout(() => e.target.style.display = 'none', 0);
+      }
+    });
+
+    document.addEventListener('dragend', function() {
+      if (draggedCard) {
+        draggedCard.style.display = 'block';
+        draggedCard = null;
+      }
+    });
+
+    zones.forEach(zone => {
+      zone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        zone.classList.add('dragover');
+      });
+
+      zone.addEventListener('dragleave', function() {
+        zone.classList.remove('dragover');
+      });
+
+      zone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        zone.classList.remove('dragover');
+        if (draggedCard) {
+          zone.appendChild(draggedCard);
+        }
+      });
+    });
+
+    cardsBox.addEventListener('dragover', function(e) {
+      e.preventDefault();
+    });
+
+    cardsBox.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (draggedCard) {
+        cardsBox.appendChild(draggedCard);
+      }
+    });
+
+    function checkAnswers() {
+      let correct = 0;
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(card => {
+        card.classList.remove('correct', 'wrong');
+        const parentZone = card.parentElement.dataset.zone;
+        const answer = card.dataset.answer;
+
+        if (parentZone === answer) {
+          card.classList.add('correct');
+          correct++;
+        } else if (parentZone) {
+          card.classList.add('wrong');
+        }
+      });
+
+      const result = document.getElementById('result');
+      if (correct === totalCards) {
+        result.style.color = '#16a34a';
+        result.textContent = 'Жарайсың! Барлығы дұрыс: ' + correct + '/' + totalCards;
+      } else {
+        result.style.color = '#dc2626';
+        result.textContent = 'Дұрыс жауап саны: ' + correct + '/' + totalCards + '. Қайта ойланып көр.';
+      }
+    }
+
+    function resetGame() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.classList.remove('correct', 'wrong');
+        cardsBox.appendChild(card);
+      });
+      document.getElementById('result').textContent = '';
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
