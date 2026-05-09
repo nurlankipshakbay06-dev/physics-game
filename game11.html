@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Қайсысы дұрыс өлшейді?</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #eef6ff, #f8fafc);
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1d4ed8;
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 22px;
+    }
+
+    .instruction {
+      background: #fff7ed;
+      border-left: 7px solid #f97316;
+      border-radius: 18px;
+      padding: 16px;
+      font-size: 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.13);
+      border: 5px solid transparent;
+      cursor: pointer;
+      transition: 0.25s;
+      text-align: center;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: #93c5fd;
+    }
+
+    .card.selected {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .card.correct {
+      border-color: #22c55e;
+      background: #dcfce7;
+    }
+
+    .card.wrong {
+      border-color: #ef4444;
+      background: #fee2e2;
+    }
+
+    .picture {
+      height: 210px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f8fafc, #e2e8f0);
+      border: 2px solid #cbd5e1;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .table-line {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      top: 132px;
+      height: 8px;
+      background: #64748b;
+      border-radius: 10px;
+    }
+
+    .object {
+      position: absolute;
+      width: 180px;
+      height: 34px;
+      background: #facc15;
+      border: 4px solid #ca8a04;
+      border-radius: 18px;
+      left: 70px;
+      top: 88px;
+      box-shadow: inset 0 0 0 4px rgba(255,255,255,0.45);
+    }
+
+    .object::after {
+      content: 'өлшенетін зат';
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 5px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #713f12;
+    }
+
+    .ruler {
+      position: absolute;
+      width: 230px;
+      height: 38px;
+      background: #ffffff;
+      border: 4px solid #334155;
+      border-radius: 10px;
+      left: 45px;
+      top: 144px;
+      transform-origin: center;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.16);
+    }
+
+    .ruler.wrong-ruler {
+      transform: rotate(-15deg);
+      top: 145px;
+    }
+
+    .ruler.correct-ruler {
+      transform: rotate(0deg);
+      top: 146px;
+    }
+
+    .tick {
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 18px;
+      background: #334155;
+    }
+
+    .tick.big {
+      height: 30px;
+      width: 3px;
+    }
+
+    .t1 { left: 18px; }
+    .t2 { left: 45px; }
+    .t3 { left: 72px; }
+    .t4 { left: 99px; }
+    .t5 { left: 126px; }
+    .t6 { left: 153px; }
+    .t7 { left: 180px; }
+    .t8 { left: 207px; }
+
+    .label {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0 6px;
+    }
+
+    .hint {
+      color: #475569;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: bold;
+      margin-top: 10px;
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 22px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .check { background: #16a34a; color: white; }
+    .reset { background: #ef4444; color: white; }
+    .help-btn { background: #2563eb; color: white; }
+
+    #result {
+      text-align: center;
+      font-size: 23px;
+      font-weight: bold;
+      margin-top: 18px;
+    }
+
+    .explanation {
+      display: none;
+      margin-top: 22px;
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+      font-size: 17px;
+    }
+
+    .explanation h3 {
+      color: #1d4ed8;
+      margin-top: 0;
+    }
+
+    .support {
+      margin-top: 16px;
+      background: #ecfdf5;
+      border-left: 7px solid #22c55e;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    @media (max-width: 760px) {
+      h1 { font-size: 30px; }
+      .card { min-height: 330px; }
+      .picture { height: 190px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Тапсырма 1: «Қайсысы дұрыс өлшейді?»</h1>
+    <p class="subtitle">Сызғышты дұрыс ұстау әрекетін таңда</p>
+
+    <div class="instruction">
+      <b>Нұсқаулық:</b> екі суретті салыстыр. Қай суретте сызғыш дұрыс қойылғанын таңда. Дұрыс өлшеу үшін сызғыш түзу тұруы керек.
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="selectCard(this, 'wrong')">
+        <div>
+          <div class="picture">
+            <div class="table-line"></div>
+            <div class="object"></div>
+            <div class="ruler wrong-ruler">
+              <span class="tick big t1"></span>
+              <span class="tick t2"></span>
+              <span class="tick t3"></span>
+              <span class="tick big t4"></span>
+              <span class="tick t5"></span>
+              <span class="tick t6"></span>
+              <span class="tick big t7"></span>
+              <span class="tick t8"></span>
+            </div>
+          </div>
+          <div class="label">Сызғышты қисық ұстау</div>
+          <div class="hint">Сызғыш затқа түзу қойылмаған. Өлшеу дәл болмайды.</div>
+        </div>
+        <div class="badge">Таңдау</div>
+      </div>
+
+      <div class="card" onclick="selectCard(this, 'correct')">
+        <div>
+          <div class="picture">
+            <div class="table-line"></div>
+            <div class="object"></div>
+            <div class="ruler correct-ruler">
+              <span class="tick big t1"></span>
+              <span class="tick t2"></span>
+              <span class="tick t3"></span>
+              <span class="tick big t4"></span>
+              <span class="tick t5"></span>
+              <span class="tick t6"></span>
+              <span class="tick big t7"></span>
+              <span class="tick t8"></span>
+            </div>
+          </div>
+          <div class="label">Сызғышты түзу ұстау</div>
+          <div class="hint">Сызғыш затқа түзу қойылған. Бұл дұрыс өлшеуге көмектеседі.</div>
+        </div>
+        <div class="badge">Таңдау</div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="check" onclick="checkAnswer()">Тексеру</button>
+      <button class="help-btn" onclick="toggleExplanation()">Түсіндірме</button>
+      <button class="reset" onclick="resetGame()">Қайта бастау</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="explanation" id="explanation">
+      <h3>Дұрыс жауап</h3>
+      <p><b>Дұрыс әрекет:</b> сызғышты түзу ұстау.</p>
+      <p>Сызғыш қисық тұрса, өлшеу дәл шықпайды. Сызғыш заттың бойымен түзу қойылып, өлшеу басы дұрыс нүктеден басталуы керек.</p>
+
+      <div class="support">
+        <b>ЕББҚ оқушыға қолдау:</b>
+        <ul>
+          <li>Жауап сурет арқылы таңдалады.</li>
+          <li>Тек екі таңдау бар: қисық немесе түзу.</li>
+          <li>Мұғалім қысқа сұрақ қояды: «Қай сызғыш түзу тұр?»</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selected = null;
+    let selectedCard = null;
+
+    function selectCard(card, value) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected', 'correct', 'wrong'));
+      card.classList.add('selected');
+      selected = value;
+      selectedCard = card;
+      document.getElementById('result').textContent = '';
+    }
+
+    function checkAnswer() {
+      const result = document.getElementById('result');
+
+      if (!selected) {
+        result.style.color = '#dc2626';
+        result.textContent = 'Алдымен бір суретті таңда.';
+        return;
+      }
+
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('correct', 'wrong'));
+
+      if (selected === 'correct') {
+        selectedCard.classList.add('correct');
+        result.style.color = '#16a34a';
+        result.textContent = 'Жарайсың! Сызғышты түзу ұстау — дұрыс әрекет.';
+      } else {
+        selectedCard.classList.add('wrong');
+        result.style.color = '#dc2626';
+        result.textContent = 'Бұл дұрыс емес. Сызғыш түзу тұруы керек.';
+      }
+    }
+
+    function resetGame() {
+      selected = null;
+      selectedCard = null;
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected', 'correct', 'wrong'));
+      document.getElementById('result').textContent = '';
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
