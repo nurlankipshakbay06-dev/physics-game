@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Дәрежесін тап</title>
+  <style>
+    body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef6ff,#f8fafc);color:#111827}.container{max-width:1050px;margin:0 auto;padding:25px}h1{text-align:center;color:#1d4ed8;font-size:38px;margin-bottom:8px}.subtitle{text-align:center;font-size:20px;font-weight:bold;margin-bottom:22px}.instruction{background:#fff7ed;border-left:7px solid #f97316;border-radius:18px;padding:16px;font-size:18px;margin-bottom:24px;box-shadow:0 5px 12px rgba(0,0,0,.08)}.game{display:grid;grid-template-columns:1fr 1.2fr;gap:22px;align-items:start}.items,.zones{background:#fff;border-radius:22px;padding:18px;box-shadow:0 6px 16px rgba(0,0,0,.12);min-height:360px}.items h2,.zones h2{text-align:center;margin-top:0;font-size:25px}.item{background:#eff6ff;border:3px solid #bfdbfe;border-radius:18px;padding:18px;margin-bottom:14px;font-size:28px;font-weight:bold;text-align:center;cursor:grab;transition:.2s}.item:hover{transform:scale(1.03);border-color:#2563eb}.row{display:grid;grid-template-columns:1fr 1.25fr;gap:12px;align-items:stretch;margin-bottom:14px}.number-box{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:18px;font-size:26px;font-weight:bold;display:flex;align-items:center;justify-content:center}.drop-zone{min-height:82px;border:4px dashed #94a3b8;border-radius:18px;background:#f8fafc;padding:10px;display:flex;align-items:center;justify-content:center;transition:.2s}.drop-zone:before{content:'Жауапты қой';color:#94a3b8;font-weight:bold;font-size:18px}.drop-zone:has(.item):before{content:''}.drop-zone.dragover{background:#dbeafe;border-color:#2563eb}.drop-zone .item{width:100%;background:white;margin-bottom:0}.buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}button{border:none;border-radius:14px;padding:13px 22px;font-size:17px;cursor:pointer;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,.12)}.check{background:#16a34a;color:white}.reset{background:#ef4444;color:white}.help{background:#2563eb;color:white}.correct{border-color:#22c55e!important;background:#dcfce7!important}.wrong{border-color:#ef4444!important;background:#fee2e2!important}#result{text-align:center;font-size:22px;font-weight:bold;margin-top:18px}.explanation{display:none;margin-top:22px;background:white;border-radius:20px;padding:18px;box-shadow:0 5px 14px rgba(0,0,0,.1);font-size:17px}.step{background:#f8fafc;border-radius:14px;padding:12px;margin:10px 0;font-size:20px;font-weight:bold}.support{margin-top:16px;background:#ecfdf5;border-left:7px solid #22c55e;border-radius:16px;padding:14px}@media(max-width:800px){.game,.row{grid-template-columns:1fr}h1{font-size:30px}.item,.number-box{font-size:24px}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Тапсырма 1: «Дәрежесін тап»</h1>
+  <p class="subtitle">Сандарды 10 дәрежесімен сәйкестендір</p>
+
+  <div class="instruction">
+    <b>Нұсқаулық:</b> сол жақтағы жауап карточкаларын ұстап, тиісті санның қасына апар. Мысалы: 100 = 10².
+  </div>
+
+  <div class="game">
+    <div class="items" id="items">
+      <h2>Жауаптар</h2>
+      <div class="item" draggable="true" data-answer="100">10²</div>
+      <div class="item" draggable="true" data-answer="1000">10³</div>
+      <div class="item" draggable="true" data-answer="001">10⁻²</div>
+    </div>
+
+    <div class="zones">
+      <h2>Берілген сандар</h2>
+      <div class="row">
+        <div class="number-box">100</div>
+        <div class="drop-zone" data-zone="100"></div>
+      </div>
+      <div class="row">
+        <div class="number-box">1000</div>
+        <div class="drop-zone" data-zone="1000"></div>
+      </div>
+      <div class="row">
+        <div class="number-box">0,01</div>
+        <div class="drop-zone" data-zone="001"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="check" onclick="checkAnswers()">Тексеру</button>
+    <button class="help" onclick="toggleExplanation()">Түсіндірме</button>
+    <button class="reset" onclick="resetGame()">Қайта бастау</button>
+  </div>
+
+  <div id="result"></div>
+
+  <div class="explanation" id="explanation">
+    <h3>Дұрыс жауаптар</h3>
+    <div class="step">100 = 10², себебі 10 × 10 = 100</div>
+    <div class="step">1000 = 10³, себебі 10 × 10 × 10 = 1000</div>
+    <div class="step">0,01 = 10⁻², себебі үтір екі орын солға жылжиды</div>
+    <div class="support">
+      <b>ЕББҚ қолдау:</b>
+      <ul>
+        <li>Дайын үлгі берілді.</li>
+        <li>Сандар үлкен қаріппен жазылды.</li>
+        <li>Оқушы жауапты сүйреп апарады.</li>
+        <li>Бірге орындауға ыңғайлы.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+let dragged=null;const itemsBox=document.getElementById('items');const zones=document.querySelectorAll('.drop-zone');const total=document.querySelectorAll('.item').length;
+document.addEventListener('dragstart',e=>{if(e.target.classList.contains('item')){dragged=e.target;setTimeout(()=>e.target.style.display='none',0)}});
+document.addEventListener('dragend',()=>{if(dragged){dragged.style.display='block';dragged=null}});
+zones.forEach(z=>{z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('dragover')});z.addEventListener('dragleave',()=>z.classList.remove('dragover'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('dragover');if(dragged){const old=z.querySelector('.item');if(old)itemsBox.appendChild(old);z.appendChild(dragged)}})});
+itemsBox.addEventListener('dragover',e=>e.preventDefault());itemsBox.addEventListener('drop',e=>{e.preventDefault();if(dragged)itemsBox.appendChild(dragged)});
+function checkAnswers(){let c=0;document.querySelectorAll('.item').forEach(i=>{i.classList.remove('correct','wrong');let p=i.parentElement.dataset.zone;if(p===i.dataset.answer){i.classList.add('correct');c++}else if(p){i.classList.add('wrong')}});let r=document.getElementById('result');if(c===total){r.style.color='#16a34a';r.textContent='Жарайсың! Барлығы дұрыс: '+c+'/'+total}else{r.style.color='#dc2626';r.textContent='Дұрыс жауап саны: '+c+'/'+total+'. Қайта ойланып көр.'}}
+function resetGame(){document.querySelectorAll('.item').forEach(i=>{i.classList.remove('correct','wrong');itemsBox.appendChild(i)});document.getElementById('result').textContent=''}
+function toggleExplanation(){let b=document.getElementById('explanation');b.style.display=b.style.display==='block'?'none':'block'}
+</script>
+</body>
+</html>
