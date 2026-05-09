@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Құралды сәйкестендір</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #eef6ff, #f8fafc);
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1d4ed8;
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 22px;
+      font-weight: bold;
+    }
+
+    .instruction {
+      background: #fff7ed;
+      border-left: 7px solid #f97316;
+      border-radius: 16px;
+      padding: 15px;
+      font-size: 17px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    }
+
+    .game-area {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .tools, .table-box {
+      background: white;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      min-height: 360px;
+    }
+
+    .tools h2, .table-box h2 {
+      text-align: center;
+      margin-top: 0;
+      font-size: 25px;
+    }
+
+    .tool-card {
+      background: #eff6ff;
+      border: 3px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 15px;
+      margin-bottom: 14px;
+      font-size: 21px;
+      font-weight: bold;
+      text-align: center;
+      cursor: grab;
+      transition: 0.2s;
+    }
+
+    .tool-card:hover {
+      transform: scale(1.03);
+      border-color: #2563eb;
+    }
+
+    .icon {
+      font-size: 46px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 14px;
+    }
+
+    .measure {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 18px;
+      font-size: 21px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #e2e8f0;
+    }
+
+    .drop-zone {
+      min-height: 90px;
+      border: 4px dashed #94a3b8;
+      border-radius: 18px;
+      background: #f8fafc;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .drop-zone::before {
+      content: '?';
+      color: #94a3b8;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .drop-zone:has(.tool-card)::before {
+      content: '';
+    }
+
+    .drop-zone.dragover {
+      background: #dbeafe;
+      border-color: #2563eb;
+    }
+
+    .drop-zone .tool-card {
+      width: 100%;
+      background: white;
+      margin-bottom: 0;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 22px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .check { background: #16a34a; color: white; }
+    .reset { background: #ef4444; color: white; }
+    .help-btn { background: #2563eb; color: white; }
+
+    .correct {
+      border-color: #22c55e !important;
+      background: #dcfce7 !important;
+    }
+
+    .wrong {
+      border-color: #ef4444 !important;
+      background: #fee2e2 !important;
+    }
+
+    #result {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 18px;
+    }
+
+    .explanation {
+      display: none;
+      margin-top: 22px;
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+      font-size: 17px;
+    }
+
+    .explanation h3 {
+      color: #1d4ed8;
+      margin-top: 0;
+    }
+
+    .support {
+      margin-top: 16px;
+      background: #ecfdf5;
+      border-left: 7px solid #22c55e;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    @media (max-width: 800px) {
+      .game-area, .row {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Тапсырма 1: «Құралды сәйкестендір»</h1>
+    <p class="subtitle">Шама мен құралды дұрыс сәйкестендір</p>
+
+    <div class="instruction">
+      <b>Нұсқаулық:</b> құрал карточкаларын ұстап, кестедегі дұрыс шама тұсына апарып қой. Соңында «Тексеру» батырмасын бас.
+    </div>
+
+    <div class="game-area">
+      <div class="tools" id="tools">
+        <h2>Құралдар</h2>
+        <div class="tool-card" draggable="true" data-answer="temperature"><span class="icon">🌡️</span>Термометр</div>
+        <div class="tool-card" draggable="true" data-answer="length"><span class="icon">📏</span>Сызғыш</div>
+        <div class="tool-card" draggable="true" data-answer="mass"><span class="icon">⚖️</span>Таразы</div>
+      </div>
+
+      <div class="table-box">
+        <h2>Кесте</h2>
+        <div class="row">
+          <div class="measure">Температура</div>
+          <div class="drop-zone" data-zone="temperature"></div>
+        </div>
+        <div class="row">
+          <div class="measure">Ұзындық</div>
+          <div class="drop-zone" data-zone="length"></div>
+        </div>
+        <div class="row">
+          <div class="measure">Масса</div>
+          <div class="drop-zone" data-zone="mass"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="check" onclick="checkAnswers()">Тексеру</button>
+      <button class="help-btn" onclick="toggleExplanation()">Түсіндірме</button>
+      <button class="reset" onclick="resetGame()">Қайта бастау</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="explanation" id="explanation">
+      <h3>Дұрыс жауап</h3>
+      <p><b>Температура</b> — термометрмен өлшенеді.</p>
+      <p><b>Ұзындық</b> — сызғышпен өлшенеді.</p>
+      <p><b>Масса</b> — таразымен өлшенеді.</p>
+
+      <div class="support">
+        <b>ЕББҚ оқушыға қолдау:</b>
+        <ul>
+          <li>Құралдар сурет-белгіше арқылы берілді.</li>
+          <li>Түстер арқылы сәйкестендіреді.</li>
+          <li>Оқушы құралды қолмен апарып орналастырады.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let draggedCard = null;
+    const toolsBox = document.getElementById('tools');
+    const zones = document.querySelectorAll('.drop-zone');
+    const totalCards = document.querySelectorAll('.tool-card').length;
+
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.classList.contains('tool-card')) {
+        draggedCard = e.target;
+        setTimeout(() => e.target.style.display = 'none', 0);
+      }
+    });
+
+    document.addEventListener('dragend', function() {
+      if (draggedCard) {
+        draggedCard.style.display = 'block';
+        draggedCard = null;
+      }
+    });
+
+    zones.forEach(zone => {
+      zone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        zone.classList.add('dragover');
+      });
+
+      zone.addEventListener('dragleave', function() {
+        zone.classList.remove('dragover');
+      });
+
+      zone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        zone.classList.remove('dragover');
+
+        if (draggedCard) {
+          const oldCard = zone.querySelector('.tool-card');
+          if (oldCard) {
+            toolsBox.appendChild(oldCard);
+          }
+          zone.appendChild(draggedCard);
+        }
+      });
+    });
+
+    toolsBox.addEventListener('dragover', function(e) {
+      e.preventDefault();
+    });
+
+    toolsBox.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (draggedCard) {
+        toolsBox.appendChild(draggedCard);
+      }
+    });
+
+    function checkAnswers() {
+      let correct = 0;
+      zones.forEach(zone => zone.classList.remove('correct', 'wrong'));
+      const cards = document.querySelectorAll('.tool-card');
+
+      cards.forEach(card => {
+        card.classList.remove('correct', 'wrong');
+        const parentZone = card.parentElement.dataset.zone;
+        const answer = card.dataset.answer;
+
+        if (parentZone === answer) {
+          card.classList.add('correct');
+          card.parentElement.classList.add('correct');
+          correct++;
+        } else if (parentZone) {
+          card.classList.add('wrong');
+          card.parentElement.classList.add('wrong');
+        }
+      });
+
+      const result = document.getElementById('result');
+      if (correct === totalCards) {
+        result.style.color = '#16a34a';
+        result.textContent = 'Жарайсың! Барлығы дұрыс: ' + correct + '/' + totalCards;
+      } else {
+        result.style.color = '#dc2626';
+        result.textContent = 'Дұрыс жауап саны: ' + correct + '/' + totalCards + '. Құралдарды қайта сәйкестендір.';
+      }
+    }
+
+    function resetGame() {
+      const cards = document.querySelectorAll('.tool-card');
+      cards.forEach(card => {
+        card.classList.remove('correct', 'wrong');
+        toolsBox.appendChild(card);
+      });
+      zones.forEach(zone => zone.classList.remove('correct', 'wrong'));
+      document.getElementById('result').textContent = '';
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
