@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Санды таңда</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ecfdf5, #eff6ff);
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #15803d;
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 22px;
+    }
+
+    .instruction {
+      background: #fff7ed;
+      border-left: 7px solid #f97316;
+      border-radius: 18px;
+      padding: 16px;
+      font-size: 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .number-card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.13);
+      border: 5px solid transparent;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .number-card:hover {
+      transform: translateY(-5px) scale(1.03);
+      border-color: #93c5fd;
+    }
+
+    .number-card.selected-big {
+      border-color: #16a34a;
+      background: #dcfce7;
+    }
+
+    .number-card.selected-small {
+      border-color: #2563eb;
+      background: #dbeafe;
+    }
+
+    .number {
+      font-size: 46px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      font-size: 17px;
+      color: #475569;
+      min-height: 22px;
+      font-weight: bold;
+    }
+
+    .question-box {
+      background: white;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      margin-bottom: 22px;
+    }
+
+    .question-box h2 {
+      text-align: center;
+      color: #1d4ed8;
+      margin-top: 0;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 15px;
+    }
+
+    .action-card {
+      background: #f8fafc;
+      border: 3px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .action-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .answer-slot {
+      min-height: 55px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 2px dashed #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      font-weight: bold;
+      color: #64748b;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 22px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .big-btn { background: #16a34a; color: white; }
+    .small-btn { background: #2563eb; color: white; }
+    .check { background: #7c3aed; color: white; }
+    .reset { background: #ef4444; color: white; }
+
+    #result {
+      text-align: center;
+      font-size: 23px;
+      font-weight: bold;
+      margin-top: 18px;
+    }
+
+    .explanation {
+      display: none;
+      margin-top: 22px;
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+      font-size: 17px;
+    }
+
+    .explanation h3 {
+      color: #1d4ed8;
+      margin-top: 0;
+    }
+
+    .support {
+      margin-top: 16px;
+      background: #ecfdf5;
+      border-left: 7px solid #22c55e;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    @media (max-width: 700px) {
+      h1 { font-size: 30px; }
+      .actions { grid-template-columns: 1fr; }
+      .number { font-size: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ұйымдастыру: «Санды таңда»</h1>
+    <p class="subtitle">Психологиялық ахуал</p>
+
+    <div class="instruction">
+      <b>Нұсқаулық:</b> тақтадағы сандарды қара. Алдымен ең үлкен санды таңда, содан кейін ең кіші санды таңда. Түстер арқылы белгіле.
+    </div>
+
+    <div class="numbers">
+      <div class="number-card" onclick="selectNumber(this, '1000')">
+        <div class="number">1000</div>
+        <div class="tag">Санды таңда</div>
+      </div>
+
+      <div class="number-card" onclick="selectNumber(this, '0,001')">
+        <div class="number">0,001</div>
+        <div class="tag">Санды таңда</div>
+      </div>
+
+      <div class="number-card" onclick="selectNumber(this, '25')">
+        <div class="number">25</div>
+        <div class="tag">Санды таңда</div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>Сұрақтар</h2>
+      <div class="actions">
+        <div class="action-card">
+          <h3>Ең үлкен сан</h3>
+          <div class="answer-slot" id="bigSlot">?</div>
+          <button class="big-btn" onclick="markBig()">Үлкен деп белгіле</button>
+        </div>
+
+        <div class="action-card">
+          <h3>Ең кіші сан</h3>
+          <div class="answer-slot" id="smallSlot">?</div>
+          <button class="small-btn" onclick="markSmall()">Кіші деп белгіле</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="check" onclick="checkAnswers()">Тексеру</button>
+      <button class="big-btn" onclick="toggleExplanation()">Түсіндірме</button>
+      <button class="reset" onclick="resetGame()">Қайта бастау</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="explanation" id="explanation">
+      <h3>Дұрыс жауап</h3>
+      <p><b>Ең үлкен сан:</b> 1000.</p>
+      <p><b>Ең кіші сан:</b> 0,001.</p>
+      <p><b>Неге?</b> 1000 саны 25-тен де, 0,001-ден де үлкен. 0,001 — өте кіші бөлшек сан.</p>
+
+      <div class="support">
+        <b>ЕББҚ оқушыға қолдау:</b>
+        <ul>
+          <li>Карточкалар арқылы көрсетуге болады.</li>
+          <li>Ең үлкен сан жасыл түспен, ең кіші сан көк түспен белгіленеді.</li>
+          <li>Оқушы бір сөзбен айта алады: «үлкен», «кіші».</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedCard = null;
+    let selectedValue = '';
+    let bigAnswer = '';
+    let smallAnswer = '';
+
+    function selectNumber(card, value) {
+      document.querySelectorAll('.number-card').forEach(c => {
+        c.style.outline = 'none';
+      });
+      card.style.outline = '5px solid #f59e0b';
+      selectedCard = card;
+      selectedValue = value;
+      document.getElementById('result').textContent = '';
+    }
+
+    function markBig() {
+      if (!selectedCard) {
+        showMessage('Алдымен бір санды таңда.', '#dc2626');
+        return;
+      }
+      document.querySelectorAll('.number-card').forEach(c => c.classList.remove('selected-big'));
+      selectedCard.classList.add('selected-big');
+      selectedCard.querySelector('.tag').textContent = 'Ең үлкен';
+      bigAnswer = selectedValue;
+      document.getElementById('bigSlot').textContent = selectedValue;
+    }
+
+    function markSmall() {
+      if (!selectedCard) {
+        showMessage('Алдымен бір санды таңда.', '#dc2626');
+        return;
+      }
+      document.querySelectorAll('.number-card').forEach(c => c.classList.remove('selected-small'));
+      selectedCard.classList.add('selected-small');
+      selectedCard.querySelector('.tag').textContent = 'Ең кіші';
+      smallAnswer = selectedValue;
+      document.getElementById('smallSlot').textContent = selectedValue;
+    }
+
+    function checkAnswers() {
+      if (!bigAnswer || !smallAnswer) {
+        showMessage('Ең үлкен және ең кіші санды белгіле.', '#dc2626');
+        return;
+      }
+
+      if (bigAnswer === '1000' && smallAnswer === '0,001') {
+        showMessage('Жарайсың! Ең үлкен сан — 1000, ең кіші сан — 0,001.', '#16a34a');
+      } else {
+        showMessage('Қайта ойланып көр. Ең үлкен және ең кіші санды салыстыр.', '#dc2626');
+      }
+    }
+
+    function resetGame() {
+      selectedCard = null;
+      selectedValue = '';
+      bigAnswer = '';
+      smallAnswer = '';
+      document.querySelectorAll('.number-card').forEach(c => {
+        c.classList.remove('selected-big', 'selected-small');
+        c.style.outline = 'none';
+        c.querySelector('.tag').textContent = 'Санды таңда';
+      });
+      document.getElementById('bigSlot').textContent = '?';
+      document.getElementById('smallSlot').textContent = '?';
+      document.getElementById('result').textContent = '';
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function showMessage(text, color) {
+      const result = document.getElementById('result');
+      result.textContent = text;
+      result.style.color = color;
+    }
+  </script>
+</body>
+</html>
