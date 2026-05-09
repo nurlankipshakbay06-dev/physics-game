@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Дұрыс па, қате ме?</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ecfdf5, #eff6ff);
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #15803d;
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 22px;
+    }
+
+    .instruction {
+      background: #fff7ed;
+      border-left: 7px solid #f97316;
+      border-radius: 16px;
+      padding: 15px;
+      font-size: 18px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    }
+
+    .question-card {
+      background: white;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      margin-bottom: 22px;
+      border: 4px solid transparent;
+    }
+
+    .question-card.correct {
+      border-color: #22c55e;
+      background: #dcfce7;
+    }
+
+    .question-card.wrong {
+      border-color: #ef4444;
+      background: #fee2e2;
+    }
+
+    .statement {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .choice {
+      border: 3px solid #cbd5e1;
+      border-radius: 18px;
+      background: #f8fafc;
+      padding: 16px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .choice:hover {
+      transform: scale(1.03);
+      border-color: #2563eb;
+    }
+
+    .choice.selected {
+      background: #dbeafe;
+      border-color: #2563eb;
+    }
+
+    .choice.good {
+      background: #dcfce7;
+      border-color: #22c55e;
+    }
+
+    .choice.bad {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+
+    .feedback {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 14px;
+      min-height: 24px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 22px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .check { background: #16a34a; color: white; }
+    .reset { background: #ef4444; color: white; }
+    .help-btn { background: #2563eb; color: white; }
+
+    #result {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 18px;
+    }
+
+    .explanation {
+      display: none;
+      margin-top: 22px;
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+      font-size: 17px;
+    }
+
+    .explanation h3 {
+      color: #1d4ed8;
+      margin-top: 0;
+    }
+
+    .support {
+      margin-top: 16px;
+      background: #ecfdf5;
+      border-left: 7px solid #22c55e;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .choices {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: 30px; }
+      .statement { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ұйымдастыру: «Дұрыс па, қате ме?»</h1>
+    <p class="subtitle">Психологиялық ахуал</p>
+
+    <div class="instruction">
+      <b>Нұсқаулық:</b> мұғалім айтқан сөйлемді оқы. Егер сөйлем дұрыс болса — <b>✔️ Дұрыс</b>, қате болса — <b>❌ Қате</b> батырмасын таңда.
+    </div>
+
+    <div class="question-card" data-answer="true">
+      <div class="statement">«1 кг мақта мен 1 кг темірдің массасы бірдей»</div>
+      <div class="choices">
+        <div class="choice" onclick="selectAnswer(this, 'true')">✔️ Дұрыс</div>
+        <div class="choice" onclick="selectAnswer(this, 'false')">❌ Қате</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question-card" data-answer="false">
+      <div class="statement">«Сызғышпен уақыт өлшейміз»</div>
+      <div class="choices">
+        <div class="choice" onclick="selectAnswer(this, 'true')">✔️ Дұрыс</div>
+        <div class="choice" onclick="selectAnswer(this, 'false')">❌ Қате</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="buttons">
+      <button class="check" onclick="checkAnswers()">Тексеру</button>
+      <button class="help-btn" onclick="toggleExplanation()">Түсіндірме</button>
+      <button class="reset" onclick="resetGame()">Қайта бастау</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="explanation" id="explanation">
+      <h3>Дұрыс жауаптар</h3>
+      <p><b>«1 кг мақта мен 1 кг темірдің массасы бірдей»</b> — дұрыс. Екеуінің массасы да 1 кг.</p>
+      <p><b>«Сызғышпен уақыт өлшейміз»</b> — қате. Сызғышпен ұзындық өлшейміз, ал уақытты сағатпен өлшейміз.</p>
+
+      <div class="support">
+        <b>ЕББҚ оқушыға қолдау:</b>
+        <ul>
+          <li>Тек екі таңдау бар: дұрыс немесе қате.</li>
+          <li>Оқушы қолмен немесе ауызша жауап бере алады.</li>
+          <li>Қысқа жетекші сұрақ: «Бұл құрал нені өлшейді?»</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectAnswer(choice, value) {
+      const card = choice.closest('.question-card');
+      card.dataset.selected = value;
+      card.querySelectorAll('.choice').forEach(c => c.classList.remove('selected', 'good', 'bad'));
+      choice.classList.add('selected');
+      card.classList.remove('correct', 'wrong');
+      card.querySelector('.feedback').textContent = '';
+      document.getElementById('result').textContent = '';
+    }
+
+    function checkAnswers() {
+      const cards = document.querySelectorAll('.question-card');
+      let correct = 0;
+
+      cards.forEach(card => {
+        const answer = card.dataset.answer;
+        const selected = card.dataset.selected;
+        const feedback = card.querySelector('.feedback');
+        card.classList.remove('correct', 'wrong');
+        card.querySelectorAll('.choice').forEach(c => c.classList.remove('good', 'bad'));
+
+        if (!selected) {
+          feedback.style.color = '#dc2626';
+          feedback.textContent = 'Жауап таңда.';
+          return;
+        }
+
+        const selectedChoice = Array.from(card.querySelectorAll('.choice')).find(c => c.classList.contains('selected'));
+
+        if (selected === answer) {
+          card.classList.add('correct');
+          selectedChoice.classList.add('good');
+          feedback.style.color = '#15803d';
+          feedback.textContent = 'Дұрыс!';
+          correct++;
+        } else {
+          card.classList.add('wrong');
+          selectedChoice.classList.add('bad');
+          feedback.style.color = '#dc2626';
+          feedback.textContent = 'Қате. Қайта ойланып көр.';
+        }
+      });
+
+      const result = document.getElementById('result');
+      if (correct === cards.length) {
+        result.style.color = '#16a34a';
+        result.textContent = 'Жарайсың! Барлығы дұрыс: ' + correct + '/' + cards.length;
+      } else {
+        result.style.color = '#dc2626';
+        result.textContent = 'Нәтиже: ' + correct + '/' + cards.length;
+      }
+    }
+
+    function resetGame() {
+      document.querySelectorAll('.question-card').forEach(card => {
+        delete card.dataset.selected;
+        card.classList.remove('correct', 'wrong');
+        card.querySelectorAll('.choice').forEach(c => c.classList.remove('selected', 'good', 'bad'));
+        card.querySelector('.feedback').textContent = '';
+      });
+      document.getElementById('result').textContent = '';
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
