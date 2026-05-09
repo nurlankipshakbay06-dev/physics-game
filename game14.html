@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ғылыми жазылу және SI префикстері</title>
+  <style>
+    body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef6ff,#f8fafc);color:#111827}.container{max-width:1150px;margin:0 auto;padding:25px}h1{text-align:center;color:#1d4ed8;font-size:38px;margin-bottom:8px}.subtitle{text-align:center;font-size:20px;font-weight:bold;margin-bottom:22px}.box{background:#fff;border-radius:22px;padding:20px;box-shadow:0 7px 18px rgba(0,0,0,.12);margin-bottom:22px}.box h2{margin-top:0;color:#1d4ed8}.formula{font-size:30px;font-weight:bold;text-align:center;background:#eff6ff;border-radius:18px;padding:18px;margin:12px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}.card{background:#f8fafc;border:3px solid #dbeafe;border-radius:18px;padding:18px;text-align:center}.card .big{font-size:34px;font-weight:bold;color:#1d4ed8}.card p{font-size:17px}.table{width:100%;border-collapse:collapse;margin-top:12px;background:white;border-radius:16px;overflow:hidden}th,td{padding:13px;border-bottom:1px solid #e5e7eb;text-align:center;font-size:17px}th{background:#1d4ed8;color:white}.positive{background:#ecfdf5}.negative{background:#fff1f2}.game-title{text-align:center;color:#15803d;font-size:30px}.instruction{background:#fff7ed;border-left:7px solid #f97316;border-radius:16px;padding:15px;font-size:17px;margin-bottom:18px}.game{display:grid;grid-template-columns:1fr 1.3fr;gap:20px}.items,.zones{background:white;border-radius:22px;padding:18px;box-shadow:0 6px 16px rgba(0,0,0,.12);min-height:360px}.items h2,.zones h2{text-align:center;margin-top:0}.item{background:#eff6ff;border:3px solid #bfdbfe;border-radius:16px;padding:14px;margin-bottom:12px;font-size:18px;font-weight:bold;text-align:center;cursor:grab}.item:hover{transform:scale(1.02);border-color:#2563eb}.zone{min-height:95px;border:4px dashed #94a3b8;border-radius:18px;background:#f8fafc;padding:12px;margin-bottom:14px}.zone.dragover{background:#dbeafe;border-color:#2563eb}.zone h3{text-align:center;margin:0 0 8px;font-size:20px}.zone .item{background:white;margin-bottom:8px}.buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:22px}button{border:none;border-radius:14px;padding:13px 22px;font-size:17px;cursor:pointer;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,.12)}.check{background:#16a34a;color:white}.reset{background:#ef4444;color:white}.help{background:#2563eb;color:white}.correct{border-color:#22c55e!important;background:#dcfce7!important}.wrong{border-color:#ef4444!important;background:#fee2e2!important}#result{text-align:center;font-size:22px;font-weight:bold;margin-top:18px}.explanation{display:none;margin-top:22px;background:white;border-radius:20px;padding:18px;box-shadow:0 5px 14px rgba(0,0,0,.1);font-size:17px}.support{margin-top:16px;background:#ecfdf5;border-left:7px solid #22c55e;border-radius:16px;padding:14px}@media(max-width:850px){.game{grid-template-columns:1fr}h1{font-size:30px}.formula{font-size:24px}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Жаңа білім: ғылыми жазылу және SI префикстері</h1>
+  <p class="subtitle">Өте үлкен және өте кіші сандарды қысқа жазу</p>
+
+  <div class="box">
+    <h2>📌 Қарапайым түсіндіру</h2>
+    <p>Өте үлкен немесе өте кіші сандарды ықшам жазу үшін <b>10 дәрежесі</b> қолданылады.</p>
+    <div class="grid">
+      <div class="card"><div class="big">1000 = 10³</div><p>Үлкен сан</p></div>
+      <div class="card"><div class="big">0.001 = 10⁻³</div><p>Кіші сан</p></div>
+      <div class="card"><div class="big">3500 = 3.5 × 10³</div><p>Ғылыми жазылу</p></div>
+      <div class="card"><div class="big">0.0002 = 2 × 10⁻⁴</div><p>Кіші санды жазу</p></div>
+    </div>
+  </div>
+
+  <div class="box">
+    <h2>🌍 SI префикстері</h2>
+    <p>Префикстер өлшем бірлікті үлкейтуге немесе кішірейтуге көмектеседі.</p>
+    <table class="table">
+      <tr><th>Префикс</th><th>Белгісі</th><th>Мәні</th><th>Мысал</th></tr>
+      <tr class="positive"><td>кило</td><td>к</td><td>10³</td><td>1 км = 1000 м</td></tr>
+      <tr class="positive"><td>Мега</td><td>М</td><td>10⁶</td><td>1 МВт = 1 000 000 Вт</td></tr>
+      <tr class="positive"><td>Гига</td><td>Г</td><td>10⁹</td><td>1 Гц = 1 000 000 000 Гц</td></tr>
+      <tr class="negative"><td>милли</td><td>м</td><td>10⁻³</td><td>1 мм = 0.001 м</td></tr>
+      <tr class="negative"><td>микро</td><td>мк</td><td>10⁻⁶</td><td>1 мкм = 0.000001 м</td></tr>
+      <tr class="negative"><td>нано</td><td>н</td><td>10⁻⁹</td><td>1 нм = 0.000000001 м</td></tr>
+      <tr class="negative"><td>пико</td><td>п</td><td>10⁻¹²</td><td>1 пФ = 10⁻¹² Ф</td></tr>
+    </table>
+  </div>
+
+  <h2 class="game-title">Ойын: префиксті дұрыс топқа орналастыр</h2>
+  <div class="instruction"><b>Нұсқаулық:</b> карточкаларды сүйреп, дұрыс бөлімге орналастыр. Үлкен бірліктер — 10 оң дәрежелері, кіші бірліктер — 10 теріс дәрежелері.</div>
+
+  <div class="game">
+    <div class="items" id="items">
+      <h2>Карточкалар</h2>
+      <div class="item" draggable="true" data-answer="big">кило = 10³</div>
+      <div class="item" draggable="true" data-answer="big">Мега = 10⁶</div>
+      <div class="item" draggable="true" data-answer="big">Гига = 10⁹</div>
+      <div class="item" draggable="true" data-answer="small">милли = 10⁻³</div>
+      <div class="item" draggable="true" data-answer="small">микро = 10⁻⁶</div>
+      <div class="item" draggable="true" data-answer="small">нано = 10⁻⁹</div>
+      <div class="item" draggable="true" data-answer="small">пико = 10⁻¹²</div>
+    </div>
+    <div class="zones">
+      <h2>Бөлімдер</h2>
+      <div class="zone" data-zone="big"><h3>⬆️ Үлкен бірліктер</h3></div>
+      <div class="zone" data-zone="small"><h3>⬇️ Кіші бірліктер</h3></div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="check" onclick="checkAnswers()">Тексеру</button>
+    <button class="help" onclick="toggleExplanation()">Түсіндірме</button>
+    <button class="reset" onclick="resetGame()">Қайта бастау</button>
+  </div>
+  <div id="result"></div>
+
+  <div class="explanation" id="explanation">
+    <h3>Қысқаша есте сақтау</h3>
+    <p><b>кило, Мега, Гига</b> — үлкен сандарды қысқартады: 10³, 10⁶, 10⁹.</p>
+    <p><b>милли, микро, нано, пико</b> — өте кіші сандарды қысқартады: 10⁻³, 10⁻⁶, 10⁻⁹, 10⁻¹².</p>
+    <div class="support"><b>ЕББҚ қолдау:</b><ul><li>Үлкен бірліктер жасыл түспен, кіші бірліктер қызғылт түспен берілді.</li><li>Қаріп үлкен.</li><li>Қадамдап түсіндіруге ыңғайлы.</li><li>Ондық нүктеге назар аударылады.</li></ul></div>
+  </div>
+</div>
+<script>
+let dragged=null;const itemsBox=document.getElementById('items');const zones=document.querySelectorAll('.zone');const total=document.querySelectorAll('.item').length;
+document.addEventListener('dragstart',e=>{if(e.target.classList.contains('item')){dragged=e.target;setTimeout(()=>e.target.style.display='none',0)}});
+document.addEventListener('dragend',()=>{if(dragged){dragged.style.display='block';dragged=null}});
+zones.forEach(z=>{z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('dragover')});z.addEventListener('dragleave',()=>z.classList.remove('dragover'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('dragover');if(dragged)z.appendChild(dragged)})});
+itemsBox.addEventListener('dragover',e=>e.preventDefault());itemsBox.addEventListener('drop',e=>{e.preventDefault();if(dragged)itemsBox.appendChild(dragged)});
+function checkAnswers(){let c=0;document.querySelectorAll('.item').forEach(i=>{i.classList.remove('correct','wrong');let p=i.parentElement.dataset.zone;if(p===i.dataset.answer){i.classList.add('correct');c++}else if(p){i.classList.add('wrong')}});let r=document.getElementById('result');if(c===total){r.style.color='#16a34a';r.textContent='Жарайсың! Барлығы дұрыс: '+c+'/'+total}else{r.style.color='#dc2626';r.textContent='Дұрыс жауап саны: '+c+'/'+total+'. Қайта орналастырып көр.'}}
+function resetGame(){document.querySelectorAll('.item').forEach(i=>{i.classList.remove('correct','wrong');itemsBox.appendChild(i)});document.getElementById('result').textContent=''}
+function toggleExplanation(){let b=document.getElementById('explanation');b.style.display=b.style.display==='block'?'none':'block'}
+</script>
+</body>
+</html>
